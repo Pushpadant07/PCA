@@ -66,3 +66,25 @@ md=pd.Series(model.labels_)
 md.head()#first five label of cluster
 
 md.tail()#last five label of cluster
+
+#Hierarchical clustering
+from scipy.cluster.hierarchy import linkage#here I'm importing the linkage function from hierarchy of cluster from scipy module
+#for seeing dendrogram i'm going to hierarchy as sch
+import scipy.cluster.hierarchy as sch
+C = linkage(newdf,method="complete",metric="Euclidean")
+plt.figure(figsize=(15,5));plt.title("hierarchical clustering dendogram");plt.xlabel("index");plt.ylabel("distance")
+sch.dendrogram(
+        C,
+        leaf_rotation=0.,
+        leaf_font_size=8.,
+)
+plt.show()
+#Before I calculated cluster number as 12 from the screeplot,Here also I'm going to use this same number of clusters as 10
+#Impoting the agglomerative clustering for how many clusters that we need to see or cut
+from sklearn.cluster import AgglomerativeClustering
+C_linkage=AgglomerativeClustering(n_clusters=12,linkage="complete",affinity="euclidean").fit(newdf)
+#labels of clusters
+C_linkage.labels_
+
+cluster_labels=pd.Series(C_linkage.labels_)#here transforming the series of labels to a new a dataset called "cluster_labels"
+
